@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ساعد - مطور مواقع وماينكرافت</title>
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --secondary: #2196F3;
+            --accent: #FF9800;
+            --dark: #1B1B1B;
+            --darker: #121212;
+            --light: #FFFFFF;
+            --gray: #B0B0B0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--darker), var(--dark));
+            color: var(--light);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        /* أنيميشن الدخول */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes glow {
+            0%, 100% { 
+                text-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary);
+            }
+            50% { 
+                text-shadow: 0 0 20px var(--accent), 0 0 30px var(--accent);
+            }
+        }
+
+        @keyframes minecraftBlock {
+            0% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(5deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+
+        @keyframes typewriter {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        /* الأنيميشن الأساسي */
+        .animate-fadeIn {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .animate-glow {
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        .animate-block {
+            animation: minecraftBlock 2s ease-in-out infinite;
+        }
+
+        /* الهيدر */
+        header {
+            background: rgba(27, 27, 27, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            animation: fadeInUp 0.8s ease-out;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-shadow: 2px 2px 0px #000;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--light);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            bottom: -5px;
+            right: 0;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* الهيرو سيكشن */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(45deg, transparent 48%, var(--primary) 50%, transparent 52%),
+                linear-gradient(-45deg, transparent 48%, var(--primary) 50%, transparent 52%);
+            background-size: 50px 50px;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+            text-shadow: 3px 3px 0px #000;
+            font-weight: bold;
+        }
+
+        .typewriter {
+            overflow: hidden;
+            border-right: 3px solid var(--accent);
+            white-space: nowrap;
+            margin: 0 auto;
+            animation: typewriter 3s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: var(--accent); }
+        }
+
+        .highlight {
+            color: var(--accent);
+            text-shadow: 2px 2px 0px #000;
+            background: linear-gradient(45deg, var(--accent), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+            text-shadow: 2px 2px 0px #000;
+            font-weight: bold;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--accent);
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.8s ease-out 0.6s both;
+        }
+
+        .badges {
+            margin: 2rem 0;
+            animation: fadeInUp 0.8s ease-out 0.8s both;
+        }
+
+        .badge {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            padding: 0.8rem 2rem;
+            border-radius: 10px;
+            margin: 0.5rem;
+            display: inline-block;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.8s ease-out 1s both;
+            border: 2px solid #000;
+            text-shadow: 1px 1px 0px #000;
+            box-shadow: 3px 3px 0px #000;
+        }
+
+        .badge:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 5px 5px 0px #000;
+            background: linear-gradient(45deg, var(--accent), var(--primary));
+        }
+
+        /* الأقسام */
+        section {
+            padding: 5rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            color: var(--accent);
+            position: relative;
+            text-shadow: 2px 2px 0px #000;
+            font-weight: bold;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            right: 50%;
+            transform: translateX(50%);
+            width: 150px;
+            height: 4px;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            border-radius: 2px;
+            box-shadow: 2px 2px 0px #000;
+        }
+
+        /* الكاردات */
+        .info-cards, .skills-grid, .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .card, .skill-item, .feature-item {
+            background: rgba(40, 40, 40, 0.9);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 3px solid var(--primary);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            box-shadow: 5px 5px 0px #000;
+        }
+
+        .card::before, .skill-item::before, .feature-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .card:hover::before, .skill-item:hover::before, .feature-item:hover::before {
+            left: 100%;
+        }
+
+        .card:hover, .skill-item:hover, .feature-item:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--accent);
+            box-shadow: 8px 8px 0px #000;
+        }
+
+        .skill-icon, .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .minecraft-block {
+            display: inline-block;
+            background: var(--primary);
+            border: 3px solid #000;
+            margin: 0 5px;
+            animation: minecraftBlock 2s ease-in-out infinite;
+        }
+
+        /* الفوتر */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(27, 27, 27, 0.95);
+            margin-top: 4rem;
+            animation: fadeInUp 0.8s ease-out;
+            border-top: 2px solid var(--primary);
+        }
+
+        /* الرسوم المتحركة للخلفية */
+        .floating-blocks {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-block {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border: 2px solid #000;
+            opacity: 0.1;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .floating-block:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-block:nth-child(2) {
+            top: 60%;
+            left: 80%;
+            animation-delay: 2s;
+        }
+
+        .floating-block:nth-child(3) {
+            top: 80%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        .floating-block:nth-child(4) {
+            top: 40%;
+            left: 90%;
+            animation-delay: 6s;
+        }
+
+        /* الموبايل */
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+            
+            section {
+                padding: 3rem 5%;
+            }
+            
+            .info-cards, .skills-grid, .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- البلوكات العائمة في الخلفية -->
+    <div class="floating-blocks">
+        <div class="floating-block"></div>
+        <div class="floating-block"></div>
+        <div class="floating-block"></div>
+        <div class="floating-block"></div>
+    </div>
+
+    <header>
+        <nav>
+            <div class="logo">ساعد <span class="minecraft-block">⚡</span></div>
+            <ul>
+                <li><a href="#home">الرئيسية</a></li>
+                <li><a href="#about">عني</a></li>
+                <li><a href="#skills">المهارات</a></li>
+                <li><a href="#features">المميزات</a></li>
+                <li><a href="#contact">التواصل</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="typewriter">مرحباً، أنا <span class="highlight">ساعد</span></h1>
+            <p>مطور مواقع وسيرفرات ماينكرافت <span class="minecraft-block">🎮</span></p>
+            <div class="hero-subtitle">
+                <span class="minecraft-block">🔥</span> عمري 17 سنة | موثوق رسمياً <span class="minecraft-block">🛡️</span>
+            </div>
+            <div class="badges">
+                <span class="badge">💻 Web Developer</span>
+                <span class="badge">🎮 Minecraft Developer</span>
+                <span class="badge">🚀 مطور أسطوري</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <h2>عني <span class="minecraft-block">🧑‍💻</span></h2>
+        <div class="about-content">
+            <p style="text-align: center; font-size: 1.3rem; margin-bottom: 2rem;">
+                مطور شغوف بعالم البرمجة والتطوير، متخصص في إنشاء تجارب رقمية استثنائية
+            </p>
+            <div class="info-cards">
+                <div class="card">
+                    <h3>🎯 رحلتي</h3>
+                    <p>بدأت في عالم البرمجة منذ سنتين، وتخصصت في تطوير سيرفرات ماينكرافت ومواقع الويب</p>
+                </div>
+                <div class="card">
+                    <h3>🛡️ مصداقيتي</h3>
+                    <p>موثوق من قبل منصات ماينكرافت الرسمية، وأعمل باحترافية وأمانة</p>
+                </div>
+                <div class="card">
+                    <h3>📈 تطوري</h3>
+                    <p>أتعلّم باستمرار وأطور مهاراتي لأكون الأفضل في مجالي</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="skills">
+        <h2>المهارات <span class="minecraft-block">⚡</span></h2>
+        <div class="skills-grid">
+            <div class="skill-item">
+                <span class="skill-icon">🌐</span>
+                <h3>تطوير الويب</h3>
+                <p>HTML, CSS, JavaScript, GitHub Pages</p>
+                <p>تصميم مواقع تفاعلية وسريعة</p>
+            </div>
+            <div class="skill-item">
+                <span class="skill-icon">🎮</span>
+                <h3>ماينكرافت</h3>
+                <p>تطوير سيرفرات - بلاجينات مخصصة</p>
+                <p>أنظمة متقدمة - إدارة سيرفرات</p>
+            </div>
+            <div class="skill-item">
+                <span class="skill-icon">🔧</span>
+                <h3>أدوات التطوير</h3>
+                <p>Git, VS Code, Terminal</p>
+                <p>إدارة سيرفرات - تحسين الأداء</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <h2>مميزاتي <span class="minecraft-block">🌟</span></h2>
+        <div class="features-grid">
+            <div class="feature-item">
+                <span class="feature-icon">💡</span>
+                <h3>إبداعي</h3>
+                <p>أبتكر حلولاً فريدة ومبتكرة لكل مشروع</p>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">⚡</span>
+                <h3>سريع</h3>
+                <p>أنجز المشاريع بجودة عالية وسرعة كبيرة</p>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">🛡️</span>
+                <h3>موثوق</h3>
+                <p>التزام كامل بالمواعيد وجودة العمل</p>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">🚀</span>
+                <h3>طموح</h3>
+                <p>أتحدى نفسي لأصل لأعلى المستويات</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <h2>التواصل <span class="minecraft-block">📞</span></h2>
+        <div class="info-cards">
+            <div class="card">
+                <h3>💬 الديسكورد</h3>
+                <p><strong>not_sa3ed</strong></p>
+                <p><strong>_sa3ed_</strong></p>
+                <p style="margin-top: 1rem; color: var(--accent);">→ متاح للرد السريع</p>
+            </div>
+            <div class="card">
+                <h3>🎯 للعمل</h3>
+                <p>تطوير سيرفرات ماينكرافت</p>
+                <p>برمجة مواقع الويب</p>
+                <p>استشارات تقنية</p>
+            </div>
+            <div class="card">
+                <h3>🌐 رؤيتي</h3>
+                <p>بناء مشاريع أسطورية</p>
+                <p>تقديم تجارب استثنائية</p>
+                <p>التطوير المستمر</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2024 ساعد - جميع الحقوق محفوظة | مطور مواقع وسيرفرات ماينكرافت</p>
+        <p style="margin-top: 1rem; color: var(--accent);">
+            <span class="minecraft-block">⚡</span> 
+            شغف التطوير هو وقود إبداعي 
+            <span class="minecraft-block">🎮</span>
+        </p>
+    </footer>
+
+    <script>
+        // تأثير التمرير السلس
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
+        });
+
+        // تأثير ظهور الأقسام
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        // مراقبة جميع الأقسام
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // تأثير العائمة للعناصر
+        document.querySelectorAll('.card, .skill-item, .feature-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // تأثير الكتابة في العنوان
+        const title = document.querySelector('.hero h1');
+        const text = title.textContent;
+        title.textContent = '';
+        let i = 0;
+        
+        function typeWriter() {
+            if (i < text.length) {
+                title.textContent += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, 100);
+            } else {
+                title.style.borderRight = 'none';
+            }
+        }
+        
+        // بدء تأثير الكتابة بعد تحميل الصفحة
+        window.addEventListener('load', () => {
+            setTimeout(typeWriter, 500);
+        });
+
+        console.log('🚀 موقع ساعد الأسطوري جاهز!');
+    </script>
+</body>
+</html>
